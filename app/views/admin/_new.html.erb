@@ -1,0 +1,12 @@
+<h2>Singer Csv</h2>
+<%=form_for :upload_file,url: upload_category_path  do |f|%>
+  <font color="red">
+		<strong>
+			<%= f.label :please_upload_a_file,:class => "label_error" ,:id => "file_label"%>
+			<%= f.label :please_upload_a_valid_csv_file,:class => "label_error" ,:id => "file_validate_label"%>
+			<br>
+		</strong>
+	</font>
+	<%=f.file_field :file%>
+	<%=f.submit "Import Csv",:id=>"file_upload"%>
+<%end%>

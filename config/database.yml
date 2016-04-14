@@ -1,0 +1,22 @@
+
+default: &default
+  adapter: postgresql
+  username: postgres
+  password: postgres
+  host: localhost
+  port: 5432
+  pool: 10
+  timeout: 5000
+
+
+development:
+  <<: *default
+  database: keyboardapi_development
+
+test:
+  <<: *default
+  database: keyboardapi_test
+
+production:
+  <<: *default
+  database: keyboardapi_production
