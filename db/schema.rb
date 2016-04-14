@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160414044930) do
+ActiveRecord::Schema.define(version: 20160414062224) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,8 +60,10 @@ ActiveRecord::Schema.define(version: 20160414044930) do
     t.integer  "sub_category_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.integer  "category_id"
   end
 
+  add_index "messages", ["category_id"], name: "index_messages_on_category_id", using: :btree
   add_index "messages", ["sub_category_id"], name: "index_messages_on_sub_category_id", using: :btree
 
   create_table "sub_categories", force: :cascade do |t|
@@ -73,6 +75,7 @@ ActiveRecord::Schema.define(version: 20160414044930) do
 
   add_index "sub_categories", ["category_id"], name: "index_sub_categories_on_category_id", using: :btree
 
+  add_foreign_key "messages", "categories"
   add_foreign_key "messages", "sub_categories"
   add_foreign_key "sub_categories", "categories"
 end
