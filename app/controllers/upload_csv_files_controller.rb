@@ -21,15 +21,26 @@ class UploadCsvFilesController < ApplicationController
 	  end
 	end
   
-  def message
-  	category=Category.find_by_id(params[:category_id])
-  	if category.present?
-	  	@messages=category.messages
+  def category_message
+  	@category=Category.find_by_id(params[:category_id])
+  	if @category.present?
+	  	@messages=@category.messages
 	  	render json:{code:'500',message:'succesfully','Message':@messages.as_json(except:[:created_at,:updated_at,:sub_category_id])}
 	  else
 	  	render json:{code:'400',message:'category does not exist'}
 	  end
   end
+
+  def sub_category_message
+  	@sub_category=SubCategory.find_by_id(params[:sub_category_id])
+  	if @sub_category.present?
+	  	@messages=@sub_category.messages
+	  	render json:{code:'500',message:'succesfully','Message':@messages.as_json(except:[:created_at,:updated_at,:category_id])}
+	  else
+	  	render json:{code:'400',message:'category does not exist'}
+	  end
+  end
+  
   def new
    
   end
@@ -68,7 +79,7 @@ class UploadCsvFilesController < ApplicationController
 	            @message =row[3]
               if @message.present?
 		            if !@category.messages.exists?(:message=>row[3])
-		              @messages=@category.messages.create(:message=>row[3],:category_id=>@category.id)
+		              @messages=@category.messages.create(:message=>row[3],:sub_category_id=>@sub_category.id)
 		            #else
 		            	#@messages.update_attributes(:message=>row[3])
 		            end
@@ -76,11 +87,12 @@ class UploadCsvFilesController < ApplicationController
 		        end
 			    end
 	        @i+=1
-	        flash[:notice] = "File imported"
-    		  #redirect_to :back
 	      end
+	       flash[:notice] = "File imported"
+    		  redirect_to :back
 	    else
 	      flash[:notice]="file extension not same"
+	      redirect_to :back
 	    end 
   end
 end

@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   post 'upload_category'=>'upload_csv_files#upload_model'
   post  'all_category'=>'upload_csv_files#all_category'
   post  'sub_category'=>'upload_csv_files#sub_category'
-  post  'message'=>'upload_csv_files#message'
+  post  'category_message'=>'upload_csv_files#category_message'
+  post  'sub_category_message'=>'upload_csv_files#sub_category_message'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
