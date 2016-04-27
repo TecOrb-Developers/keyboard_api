@@ -23,14 +23,25 @@ class UploadCsvFilesController < ApplicationController
   
   def category_message
   	@category=Category.find_by_id(params[:category_id])
-  	if @category.present?
+  	if @category.present?	
 	  	@messages=@category.messages
-	  	render json:{code:'500',message:'succesfully','messages':@messages.as_json(except:[:created_at,:updated_at,:sub_category_id])}
+	  	render json:{code:'500',message:'succesfully',data:{:category=>@messages.as_json(except:[:created_at,:updated_at,:sub_category_id,:category_id,:id])}}
 	  else
 	  	render json:{code:'400',message:'category does not exist'}
 	  end
   end
-
+   def all_message
+	   	@categories=Category.all
+	   	#@results = Array.new
+	   	categHash={ }
+	   	@categories.each do |categ|
+	   		categHash["#{categ.name}"]=categ.messages
+	   		#@results<<["#{categ.name}"]
+	   		#@results.each do |r|
+	   		#	@res=Array.new
+	   	end
+	   	render json:{code:'500',message:'succesfully',data:categHash.as_json(except:[:created_at,:updated_at,:sub_category_id,:category_id,:id])}
+   end
   def sub_category_message
   	@sub_category=SubCategory.find_by_id(params[:sub_category_id])
   	if @sub_category.present?
